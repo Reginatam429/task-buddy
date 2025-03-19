@@ -4,9 +4,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home Page</title>
+    <link rel="stylesheet" href="/style.css">
     </head>
 <body>
-    <h1>Welcome to Task Buddy</h1>
+    <div class="container">
+        <img id="logo" src="/assets/logo.gif" alt="Animated Logo">
+        <!-- <h1>Welcome to Task Buddy</h1> -->
+        <h2 id="tagline">Loading...</h2>
+        <div class="button-container">
+            <a href="/auth/sign-in" class="btn">Sign In</a>
+            <a href="/auth/sign-up" class="btn">Sign Up</a>
+        </div>
+    </div>
+
+    <script>
+        // logo animation
+        document.addEventListener("DOMContentLoaded", () => {
+            const logo = document.getElementById("logo");
+            const staticImage = "/assets/logo-static.png"; // Path to the static image
+            const gifDuration = 2500; // Adjust to match your GIF length in milliseconds (3s = 3000ms)
+
+            setTimeout(() => {
+                logo.src = staticImage;
+            }, gifDuration);
+        });
+
+        // tagline randomizer
+        const taglines = [
+            "Your to-dos just got a new bestie!",
+            "Tasks don’t stand a chance!",
+            "Helping you crush your to-dos—one buddy at a time!",
+            "Check it, done it, nailed it!",
+            "A to-do list that actually wants to hang out with you!",
+            "Your sidekick in the battle against procrastination!",
+            "Tasks are tough, but you’ve got a buddy!",
+            "Making productivity feel less... productive."
+        ];
+
+        // Select a random tagline
+        const randomTagline = taglines[Math.floor(Math.random() * taglines.length)];
+
+        // Insert the tagline into the HTML
+        document.addEventListener("DOMContentLoaded", () => {
+            document.getElementById("tagline").textContent = randomTagline;
+        });
+    </script>
 </body>
 
 </html>

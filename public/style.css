@@ -1,0 +1,43 @@
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+}
+
+/* Centering the container */
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+}
+
+/* Style the button links */
+.button-container {
+    display: flex;
+    gap: 30px; /* Space between buttons */
+}
+
+.btn {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: #6fded4;
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 25px;
+    transition: background-color 0.3s ease;
+}
+
+/* Hover effect */
+.btn:hover {
+    background-color: #57c7bc;
+}
