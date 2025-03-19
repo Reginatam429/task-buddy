@@ -9,7 +9,6 @@
 <body>
     <div class="container">
         <img id="logo" src="/assets/logo.gif" alt="Animated Logo">
-        <!-- <h1>Welcome to Task Buddy</h1> -->
         <h2 id="tagline">Loading...</h2>
         <div class="button-container">
             <a href="/auth/sign-in" class="btn">Sign In</a>
@@ -18,18 +17,18 @@
     </div>
 
     <script>
-        // logo animation
+        // LOGO ANIMATION
         document.addEventListener("DOMContentLoaded", () => {
             const logo = document.getElementById("logo");
-            const staticImage = "/assets/logo-static.png"; // Path to the static image
-            const gifDuration = 2500; // Adjust to match your GIF length in milliseconds (3s = 3000ms)
+            const staticImage = "/assets/logo-static.png"; 
+            const gifDuration = 2500; // length in milliseconds (2.5s = 2500ms)
 
             setTimeout(() => {
                 logo.src = staticImage;
             }, gifDuration);
         });
 
-        // tagline randomizer
+        // TAGLINE RANDOMIZER
         const taglines = [
             "Your to-dos just got a new bestie!",
             "Tasks don’t stand a chance!",

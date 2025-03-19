@@ -29,7 +29,7 @@ router.post('/sign-up', async (req, res) => {
         const username = req.body.username.trim();
 
         // UNIQUE USERNAME CHECK
-        const userInDatabase = await User.findOne({ username: req.body.username });
+        const userInDatabase = await User.findOne({ username });
         if (userInDatabase) {
         console.log("🔴 Username already taken.");
         return res.send('Username already taken.');
@@ -41,14 +41,11 @@ router.post('/sign-up', async (req, res) => {
         return res.send('Password and Confirm Password must match');
         }
     
-        // HASH PASSWORD BEFORE STORAGE
-        console.log("🟢 Hashing password...");
-        const hashedPassword = bcrypt.hashSync(req.body.password, 10);
-        req.body.password = hashedPassword;
+        // PASSWORD IS HASHED BY MIDDLEWARE
     
         // CREATE NEW USER
         console.log("🟢 Creating new user...");
-        await User.create(req.body);
+        await User.create({ username, password: req.body.password });
     
         console.log("✅ User created! Redirecting to sign-in.");
         res.redirect('/auth/sign-in');
@@ -67,7 +64,7 @@ router.post('/sign-in', async (req, res) => {
         const username = req.body.username.trim();
 
         // CHECKING IF USER EXISTS
-        const userInDatabase = await User.findOne({ username: req.body.username });
+        const userInDatabase = await User.findOne({ username });
         if (!userInDatabase) {
         return res.status(400).send('Login failed: User not found.');
         }
@@ -75,10 +72,8 @@ router.post('/sign-in', async (req, res) => {
     
         // PASSWORD VERIFICATION
         console.log("🟢 Checking password...");
-        const validPassword = await bcrypt.compareSync(
-            req.body.password,
-            userInDatabase.password
-        );
+        const validPassword = await bcrypt.compare(req.body.password, userInDatabase.password);
+        console.log(`validPassword: ${validPassword}`);
         if (!validPassword) {
             console.log("🔴 Login failed: Incorrect password.");
             return res.status(400).send('Login failed. Please try again.');
@@ -97,6 +92,17 @@ router.post('/sign-in', async (req, res) => {
         console.log("🔴 Error during sign-in:", error);
         res.redirect('/');
     }
+});
+
+// LOG OUT LOGIC
+router.get("/sign-out", (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            console.log("🔴 Error logging out:", err);
+            return res.redirect("/account/home");
+        }
+        res.redirect("/");
+    });
 });
 
 module.exports = router;

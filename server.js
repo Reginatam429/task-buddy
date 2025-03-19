@@ -17,7 +17,8 @@ mongoose.connection.on('connected', () => {
 const authController = require('./controllers/auth.js');
 
 // MIDDLEWARE IMPORTS******************************
-
+const isSignedIn = require('./middleware/is-signed-in.js');
+const passUserToView = require('./middleware/pass-user-to-view.js');
 
 // MIDDLEWARE *****************************
 app.use(express.static("public"));
@@ -31,11 +32,16 @@ app.use(
     })
 );
 app.use('/auth', authController);
+app.use(passUserToView);
 
 // ROUTES **********************************
 app.get('/', (req, res) => {
     res.render('index.ejs');
 });
+app.get('/account/home', isSignedIn, (req, res) => {
+    res.render('account/home.ejs');
+});
+
 
 app.listen(port, () => {
     console.log(`The express app is ready on port ${port}!`);

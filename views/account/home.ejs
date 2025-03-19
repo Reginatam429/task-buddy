@@ -7,7 +7,9 @@
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-    <h1>Welcome User</h1>
-    <button type="start">Start</button>
+    <h1>Hello, <%= user.username %>!</h1>
+    <p>Your Level: <%= user.level %></p>
+    <button type="start" class="btn">Start</button>
+    <a href="/auth/sign-out" class="btn">Logout</a>
 </body>
 </html>
