@@ -1,5 +1,25 @@
-<nav>
-    <ul>
-        
-    </ul>
+<nav class="navbar">
+    <% if (currentPage !== "landing") { %>
+        <div class="logo">
+            <a href="/">
+                <img src="/assets/logo-text.png" alt="Task Buddy Logo">
+            </a>
+        </div>
+    <% } else { %>
+        <!-- Empty div to maintain spacing -->
+        <div class="logo-placeholder"></div>
+    <% } %>
+
+    <!-- Hamburger Menu -->
+    <div class="menu">
+        <div class="hamburger" onclick="toggleDropdown()">☰</div>
+        <div id="dropdownMenu" class="dropdown">
+            <% if (!user) { %>
+                <a href="/auth/sign-up">Sign Up</a>
+                <a href="/auth/sign-in">Log In</a>
+            <% } else { %>
+                <a href="/auth/sign-out">Log Out</a>
+            <% } %>
+        </div>
+    </div>
 </nav>

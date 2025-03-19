@@ -5,19 +5,13 @@ const bcrypt = require('bcrypt');
 const User = require('../models/user.js');
 
 // SIGN UP PAGE
-router.get('/sign-up', (req, res) => {
-    res.render('auth/sign-up.ejs');
+router.get("/sign-up", (req, res) => {
+    res.render("auth/sign-up", { currentPage: "sign-up", user: req.session.user });
 });
 
 // SIGN IN PAGE
-router.get('/sign-in', (req, res) => {
-    res.render('auth/sign-in.ejs');
-});
-
-// SIGN OUT ROUTE
-router.get('/sign-out', (req, res) => {
-    req.session.destroy();
-    res.redirect('/');
+router.get("/sign-in", (req, res) => {
+    res.render("auth/sign-in", { currentPage: "sign-in", user: req.session.user });
 });
 
 // SIGN-UP LOGIC

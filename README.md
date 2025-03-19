@@ -18,6 +18,7 @@ Languages
 - HTML
 - CSS
 - JavaScript 
+- EJS
 
 MongoDB
 

@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/style.css">
     </head>
 <body>
+    <%- include("partials/_navbar.ejs") %>
     <div class="container">
         <img id="logo" src="/assets/logo.gif" alt="Animated Logo">
         <h2 id="tagline">Loading...</h2>
@@ -48,6 +49,7 @@
             document.getElementById("tagline").textContent = randomTagline;
         });
     </script>
+    <script src="/script.js"></script>
 </body>
 
 </html>

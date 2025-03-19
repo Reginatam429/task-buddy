@@ -33,14 +33,18 @@ app.use(
 );
 app.use('/auth', authController);
 app.use(passUserToView);
+app.set("view engine", "ejs");  
+app.set("views", "views");
 
 // ROUTES **********************************
 app.get('/', (req, res) => {
-    res.render('index.ejs');
+    res.render('index.ejs', { currentPage: 'landing', user: req.session.user || null });
 });
+
 app.get('/account/home', isSignedIn, (req, res) => {
-    res.render('account/home.ejs');
+    res.render('account/home.ejs', { currentPage: 'dashboard', user: req.session.user });
 });
+
 
 
 app.listen(port, () => {
