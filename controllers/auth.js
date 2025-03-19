@@ -77,10 +77,12 @@ router.post('/sign-in', async (req, res) => {
         console.log("🟢 Password verified!");
         req.session.user = {
             username: userInDatabase.username,
-            _id: userInDatabase._id
+            _id: userInDatabase._id,
+            level: userInDatabase.level, 
+            xp: userInDatabase.xp,
+            inventory: userInDatabase.inventory
         };
-    
-        console.log(`Signed in as: ${req.session.user.username}`);
+
         res.redirect('/account/home');
     } catch (error) {
         console.log("🔴 Error during sign-in:", error);

@@ -8,21 +8,34 @@
 </head>
 <body>
     <%- include("../partials/_navbar.ejs") %>
+    <div class="container">
     <h1>Create a new account!</h1>
-    <form action="/auth/sign-up" method="POST">
-        <label for="username">Username:</label>
-        <input type="text" name="username" id="username" required />
-        <label for="password">Password:</label>
-        <input type="password" name="password" id="password" required />
-        <label for="confirmPassword">Confirm Password:</label>
-        <input 
-        type="password"
-        name="confirmPassword"
-        id="confirmPassword"
-        required 
-        />
-        <button type="submit">Sign up</button>
-    </form>
+        <!-- Logo -->
+        <img id="logo" src="/assets/logo.png" alt="Task Buddy Logo" class="logo">
+
+        <!-- Tagline -->
+        <h2 class="tagline">Sign Up to get things done!</h2>
+
+        <!-- Sign-in Form Box -->
+        <div class="form-box">
+            <form action="/auth/sign-up" method="POST">
+                <label for="username">Username:</label>
+                <input type="text" name="username" id="username" required />
+                <label for="password">Password:</label>
+                <input type="password" name="password" id="password" required />
+                <label for="confirmPassword">Confirm Password:</label>
+                <input 
+                    type="password"
+                    name="confirmPassword"
+                    id="confirmPassword"
+                    required 
+                />
+                <br><br>
+                <button type="submit" class="btn">Sign up</button>
+                <p>Already have an account? <a href="/auth/sign-in">Log in here</a></p>
+            </form>
+        </div>
+    </div>
     <script src="/script.js"></script>
 </body>
 </html>

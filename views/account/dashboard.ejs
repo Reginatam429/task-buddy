@@ -3,17 +3,16 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home Page</title>
+    <title>Dashboard</title>
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
     <%- include("../partials/_navbar.ejs") %>
-    <h1>Hello, <%= user.username %>!</h1>
-    <p>Your Level: <%= user.level %></p>
-    <br><br>
-    <a href="/account/dashboard" class="btn">Start</a>
-    <br><br>
-    <a href="/auth/sign-out" class="btn">Logout</a>
+    <h1>Welcome to Your Task Buddy Dashboard, <%= user.username %>!</h1>
+    <p>Your Current Level: <%= user.level %></p>
+    
+    <!-- APP HERE -->
+
     <script src="/script.js"></script>
 </body>
 </html>

@@ -45,6 +45,15 @@ app.get('/account/home', isSignedIn, (req, res) => {
     res.render('account/home.ejs', { currentPage: 'dashboard', user: req.session.user });
 });
 
+app.get("/account/dashboard", (req, res) => {
+    if (!req.session.user) {
+        return res.redirect("/auth/sign-in"); // Redirect if not logged in
+    }
+    res.render("account/dashboard", { 
+        currentPage: "dashboard", // Add this!
+        user: req.session.user 
+    });
+});
 
 
 app.listen(port, () => {
