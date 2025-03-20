@@ -44,50 +44,91 @@ document.addEventListener("DOMContentLoaded", () => {
 document.addEventListener("DOMContentLoaded", () => {
     const xpBar = document.getElementById("xp-bar");
     const xpProgress = document.querySelector(".xp-bar-container");
-    const userLevel = document.getElementById("user-level");
+    const userLevelElement = document.getElementById("user-level");
+
+    if (!userLevelElement) {
+        console.error("🚨 ERROR: user-level element not found in DOM!");
+        return; // Stop execution to prevent further errors
+    }
+
+    console.log("🔍 Loaded XP from EJS:", userXP);
+    console.log("🔍 Loaded Level from EJS:", userLevel);
 
     let xp = userXP;
-    let level = userLevel; 
-
-    console.log("🔍 Initial XP:", xp);
-    console.log("🔍 Initial Level:", level);
+    let level = userLevel;
 
     function updateXPBar(newXP) {
         let xpPercentage = newXP % 100; 
         xpBar.style.width = `${xpPercentage}%`;
-
+    
         console.log("🔄 XP Updated:", newXP, "| XP Bar:", xpPercentage);
-
-        if (newXP >= 100 && xpPercentage === 0) { 
-            console.log("🎉 Level Up Detected!");
+    
+        if (newXP >= 100) {  
+            console.log("🎉 Level Up Detected! XP:", newXP);
             levelUp();
         }
     }
 
     function levelUp() {
-        level++; // Increase level
-        userLevel.textContent = level; // Update level UI
-
+        level++; 
+        userLevelElement.textContent = level; 
+    
         console.log("🎊 Level Up! New Level:", level);
-
-        // 🎉 Trigger Confetti Effect
+    
+        // 🎉 Fire confetti 
+        console.log("🚀 Firing Confetti...");
         confetti({
             particleCount: 200,
             spread: 80,
             startVelocity: 30,
-            origin: { x: 0.5, y: 0.5 } // Centered effect
+            origin: { x: 0.5, y: 0.5 }
         });
-
-        setTimeout(() => {
-            confetti({
-                particleCount: 100,
-                spread: 60,
-                startVelocity: 20,
-                origin: { x: 0.5, y: 0.5 }
-            });
-        }, 500);
     }
 
     // Ensure XP bar updates when page loads
     updateXPBar(xp);
+});
+
+// Handling edit button clicks
+document.addEventListener("DOMContentLoaded", () => {
+    const editButtons = document.querySelectorAll(".edit-btn");
+
+    editButtons.forEach(button => {
+        button.addEventListener("click", (event) => {
+            event.preventDefault(); // Prevent accidental form submissions
+
+            const taskItem = button.closest(".task-item"); // Get the closest task item
+
+            // Toggle the "editing" class on the task item
+            taskItem.classList.toggle("editing");
+        });
+    });
+});
+
+// INVENTORY LOGIC ****************
+document.addEventListener("DOMContentLoaded", () => {
+    const tabs = document.querySelectorAll(".inventory-tab");
+    const items = document.querySelectorAll(".inventory-item");
+
+    tabs.forEach(tab => {
+        tab.addEventListener("click", () => {
+            // Remove 'active' class from all tabs
+            tabs.forEach(t => t.classList.remove("active"));
+            tab.classList.add("active"); // Add to clicked tab
+
+            const selectedCategory = tab.dataset.category;
+            
+            // Hide all items
+            items.forEach(item => {
+                if (item.dataset.category === selectedCategory) {
+                    item.classList.add("active");
+                } else {
+                    item.classList.remove("active");
+                }
+            });
+        });
+    });
+
+    // Set default active category to "Pets"
+    document.querySelector(".inventory-tab.active").click();
 });

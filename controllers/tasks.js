@@ -52,28 +52,28 @@ router.post("/toggle-complete/:id", async (req, res) => {
         if (!req.session.user) {
             return res.status(401).send("Unauthorized: No user in session");
         }
-        
+
         const task = await Task.findById(req.params.id);
         const user = await User.findById(req.session.user._id);
 
         if (!task || !user) return res.status(404).send("Task or user not found");
 
         task.completed = !task.completed;
+        await task.save();
 
-        // If task is completed, add XP
+        // **XP Adjustment**
         if (task.completed) {
-            user.xp += task.xpReward;
-
-            // If XP reaches 100, level up and reset XP
-            if (user.xp >= 100) {
-                user.level += 1;
-                user.xp = 0; // Reset XP
-            }
+            user.xp += task.xpReward; // ✅ Add XP when completed
         } else {
-            user.xp -= task.xpReward; // Remove XP if task is unchecked
+            user.xp = Math.max(0, user.xp - task.xpReward); // ✅ Ensure XP never goes below 0
         }
 
-        await task.save();
+        // Level Up Logic
+        if (user.xp >= 100) {
+            user.level += 1;
+            user.xp = 0; // Reset XP after leveling up
+        }
+
         await user.save();
 
         res.redirect("/account/dashboard");
