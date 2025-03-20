@@ -41,3 +41,53 @@ document.addEventListener("DOMContentLoaded", () => {
     movePet(); // Start animation
 });
 
+document.addEventListener("DOMContentLoaded", () => {
+    const xpBar = document.getElementById("xp-bar");
+    const xpProgress = document.querySelector(".xp-bar-container");
+    const userLevel = document.getElementById("user-level");
+
+    let xp = userXP;
+    let level = userLevel; 
+
+    console.log("🔍 Initial XP:", xp);
+    console.log("🔍 Initial Level:", level);
+
+    function updateXPBar(newXP) {
+        let xpPercentage = newXP % 100; 
+        xpBar.style.width = `${xpPercentage}%`;
+
+        console.log("🔄 XP Updated:", newXP, "| XP Bar:", xpPercentage);
+
+        if (newXP >= 100 && xpPercentage === 0) { 
+            console.log("🎉 Level Up Detected!");
+            levelUp();
+        }
+    }
+
+    function levelUp() {
+        level++; // Increase level
+        userLevel.textContent = level; // Update level UI
+
+        console.log("🎊 Level Up! New Level:", level);
+
+        // 🎉 Trigger Confetti Effect
+        confetti({
+            particleCount: 200,
+            spread: 80,
+            startVelocity: 30,
+            origin: { x: 0.5, y: 0.5 } // Centered effect
+        });
+
+        setTimeout(() => {
+            confetti({
+                particleCount: 100,
+                spread: 60,
+                startVelocity: 20,
+                origin: { x: 0.5, y: 0.5 }
+            });
+        }, 500);
+    }
+
+    // Ensure XP bar updates when page loads
+    updateXPBar(xp);
+});

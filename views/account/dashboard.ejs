@@ -10,9 +10,11 @@
     <%- include("../partials/_navbar.ejs") %>
     <h2>Hi, <%= user.username %>!</h2>
     <p>Your Current Level: <%= user.level %></p>
+    <!-- Debug: Show Raw XP Value -->
+    <p>DEBUG: XP = <%= user.xp %></p>
     <!-- XP Progress Bar -->
     <div class="xp-bar-container">
-        <div class="xp-bar" style="width: <%= (user.xp % 100) %>%;"></div>
+        <div class="xp-bar" id="xp-bar" style="width: <%= (user.xp % 100) %>%;"></div>
     </div>
     <p><%= user.xp % 100 %>/100 XP</p>
     <!-- Main Container for Two Sections -->
@@ -79,8 +81,13 @@
             </div>
         </div>
     </div>
-
+        <!-- Inject XP & Level Data for JavaScript -->
+    <script>
+        const userXP = <%= user.xp || 0 %>;
+        const userLevel = <%= user.level || 1 %>;
+    </script>
     <script src="/script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.3.2"></script>
     <script src="/dashboard.js"></script>
 </body>
 </html>

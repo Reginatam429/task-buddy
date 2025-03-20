@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const methodOverride = require('method-override');
 const session = require('express-session');
 const Task = require("./models/task");
+const User = require("./models/user");
 
 const port = process.env.PORT ? process.env.PORT : '3000';
 mongoose.connect(process.env.MONGODB_URI);
@@ -51,14 +52,21 @@ app.get("/account/dashboard", isSignedIn, async (req, res) => {
     try {
         if (!req.session.user) {
             console.log("User is not in session.");
-            return res.redirect("/auth/sign-in"); // Ensure user is logged in
+            return res.redirect("/auth/sign-in"); 
+        }
+
+        // Fetch the full user data from the database
+        const user = await User.findById(req.session.user._id);
+        if (!user) {
+            console.log("User not found in database.");
+            return res.redirect("/auth/sign-in");
         }
         
         const userTasks = await Task.find({ user: req.session.user._id }); // Fetch tasks
 
         res.render("account/dashboard", { 
             currentPage: "dashboard",
-            user: req.session.user,
+            user,
             tasks: userTasks // Pass tasks to view
         });
     } catch (error) {
