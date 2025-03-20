@@ -8,11 +8,52 @@
 </head>
 <body>
     <%- include("../partials/_navbar.ejs") %>
-    <h1>Welcome to Your Task Buddy Dashboard, <%= user.username %>!</h1>
+    <h1>Hi, <%= user.username %>!</h1>
     <p>Your Current Level: <%= user.level %></p>
     
-    <!-- APP HERE -->
+    <!-- Main Container for Two Sections -->
+    <div class="dashboard-container">
+        <!-- Left: Task List -->
+        <div class="task-list">
+            <h2>Your Tasks</h2>
+            <ul id="task-list">
+                <% user.tasks?.forEach(task => { %>
+                    <li><%= task.text %></li>
+                <% }) %>
+            </ul>
+            <input type="text" id="new-task" placeholder="Add a task">
+            <button id="add-task">Add Task</button>
+        </div>
+
+        <!-- Right: Pet Section (Pet + Inventory) -->
+        <div class="pet-section">
+            <!-- Pet Environment -->
+            <div class="pet-environment">
+                <div class="pet-area">
+                    <div id="pet-sprite" data-pet="<%= user.pet || 'default' %>"></div>
+                </div>
+            </div>
+
+            <!-- Inventory Section -->
+            <div class="inventory-container">
+                <h2>Inventory</h2>
+                <div id="inventory-items">
+                    <% if (user.inventory && user.inventory.length > 0) { %>
+                        <% user.inventory.forEach(item => { %>
+                            <div class="inventory-item">
+                                <img src="<%= item.image %>" alt="<%= item.name %>">
+                                <p><%= item.name %></p>
+                            </div>
+                        <% }) %>
+                    <% } else { %>
+                        <p>Your inventory is empty.</p>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="/script.js"></script>
+    <script src="/dashboard.js"></script>
 </body>
 </html>
