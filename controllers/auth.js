@@ -77,7 +77,7 @@ router.post('/sign-in', async (req, res) => {
         console.log("🟢 Password verified!");
         req.session.user = {
             username: userInDatabase.username,
-            _id: userInDatabase._id,
+            _id: userInDatabase._id.toString(),
             level: userInDatabase.level, 
             xp: userInDatabase.xp,
             inventory: userInDatabase.inventory

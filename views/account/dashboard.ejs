@@ -8,21 +8,48 @@
 </head>
 <body>
     <%- include("../partials/_navbar.ejs") %>
-    <h1>Hi, <%= user.username %>!</h1>
+    <h2>Hi, <%= user.username %>!</h2>
     <p>Your Current Level: <%= user.level %></p>
-    
+    <!-- XP Progress Bar -->
+    <div class="xp-bar-container">
+        <div class="xp-bar" style="width: <%= (user.xp % 100) %>%;"></div>
+    </div>
+    <p><%= user.xp % 100 %>/100 XP</p>
     <!-- Main Container for Two Sections -->
     <div class="dashboard-container">
         <!-- Left: Task List -->
         <div class="task-list">
             <h2>Your Tasks</h2>
-            <ul id="task-list">
-                <% user.tasks?.forEach(task => { %>
-                    <li><%= task.text %></li>
+            <form action="/tasks/add" method="POST">
+                <input type="text" name="description" placeholder="Add a task" required>
+                <button type="submit">Add Task</button>
+            </form>
+        
+            <ul>
+                <% tasks.forEach(task => { %>
+                    <li class="task-item <%= task.completed ? 'completed' : '' %>">
+                        <!-- Checkbox to mark complete -->
+                        <form action="/tasks/toggle-complete/<%= task._id %>" method="POST">
+                            <input type="checkbox" onchange="this.form.submit()" <%= task.completed ? 'checked' : '' %>>
+                        </form>
+                        
+                        <!-- Task description -->
+                        <span><%= task.description %> <small>(<%= task.mood %>)</small></span>
+                        
+                        <!-- Edit form (Hidden until triggered) -->
+                        <form action="/tasks/edit/<%= task._id %>" method="POST" class="edit-form">
+                            <input type="text" name="description" value="<%= task.description %>" required>
+                            <button type="submit">Save</button>
+                        </form>
+        
+                        <!-- Task action buttons -->
+                        <button class="edit-btn">✏️</button>
+                        <form action="/tasks/delete/<%= task._id %>" method="POST" class="delete-form">
+                            <button type="submit" class="delete-btn">🗑️</button>
+                        </form>
+                    </li>
                 <% }) %>
             </ul>
-            <input type="text" id="new-task" placeholder="Add a task">
-            <button id="add-task">Add Task</button>
         </div>
 
         <!-- Right: Pet Section (Pet + Inventory) -->

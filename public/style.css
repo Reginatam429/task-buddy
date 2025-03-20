@@ -179,6 +179,24 @@ body {
     padding-bottom: 30px; /* Add space to prevent overflow */
 }
 
+/* XP Bar Container */
+.xp-bar-container {
+    width: 100%;
+    max-width: 300px;
+    height: 20px;
+    background: #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+/* XP Fill */
+.xp-bar {
+    height: 100%;
+    background: #6fded4;
+    transition: width 0.5s ease-in-out;
+}
+
 /* Task List Section - Scrollable */
 .task-list {
     flex: 1; /* Allow equal width */
@@ -205,6 +223,44 @@ body {
 
 .task-list::-webkit-scrollbar-track {
     background: #f4f4f4;
+}
+
+.task-list ul {
+    list-style: none;
+    padding: 0;
+}
+
+.task-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.task-item.completed span {
+    text-decoration: line-through;
+    color: gray;
+}
+
+.task-item form {
+    display: inline;
+}
+
+.edit-form {
+    display: none; /* Hidden until edit is triggered */
+}
+
+.edit-btn, .delete-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    margin-left: 10px;
+}
+
+.delete-btn {
+    color: red;
 }
 
 /* Container for Pet & Inventory */

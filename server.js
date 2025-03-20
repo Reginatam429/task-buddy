@@ -5,7 +5,7 @@ const app = express();
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
 const session = require('express-session');
-
+const Task = require("./models/task");
 
 const port = process.env.PORT ? process.env.PORT : '3000';
 mongoose.connect(process.env.MONGODB_URI);
@@ -15,6 +15,7 @@ mongoose.connection.on('connected', () => {
 
 // CONTROLLERS******************************
 const authController = require('./controllers/auth.js');
+const taskController = require("./controllers/tasks");
 
 // MIDDLEWARE IMPORTS******************************
 const isSignedIn = require('./middleware/is-signed-in.js');
@@ -33,6 +34,7 @@ app.use(
 );
 app.use('/auth', authController);
 app.use(passUserToView);
+app.use("/tasks", taskController);
 app.set("view engine", "ejs");  
 app.set("views", "views");
 
@@ -45,14 +47,24 @@ app.get('/account/home', isSignedIn, (req, res) => {
     res.render('account/home.ejs', { currentPage: 'dashboard', user: req.session.user });
 });
 
-app.get("/account/dashboard", (req, res) => {
-    if (!req.session.user) {
-        return res.redirect("/auth/sign-in"); // Redirect if not logged in
+app.get("/account/dashboard", isSignedIn, async (req, res) => {
+    try {
+        if (!req.session.user) {
+            console.log("User is not in session.");
+            return res.redirect("/auth/sign-in"); // Ensure user is logged in
+        }
+        
+        const userTasks = await Task.find({ user: req.session.user._id }); // Fetch tasks
+
+        res.render("account/dashboard", { 
+            currentPage: "dashboard",
+            user: req.session.user,
+            tasks: userTasks // Pass tasks to view
+        });
+    } catch (error) {
+        console.error("Error fetching tasks:", error);
+        res.status(500).send("Failed to load dashboard");
     }
-    res.render("account/dashboard", { 
-        currentPage: "dashboard", // Add this!
-        user: req.session.user 
-    });
 });
 
 

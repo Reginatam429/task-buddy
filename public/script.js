@@ -11,3 +11,16 @@ window.onclick = function(event) {
         }
     }
 };
+
+// Inline task editing
+document.addEventListener("DOMContentLoaded", () => {
+    const editButtons = document.querySelectorAll(".edit-btn");
+
+    editButtons.forEach(button => {
+        button.addEventListener("click", (event) => {
+            const taskItem = event.target.closest(".task-item");
+            taskItem.querySelector("span").style.display = "none"; // Hide text
+            taskItem.querySelector(".edit-form").style.display = "inline"; // Show input
+        });
+    });
+});
