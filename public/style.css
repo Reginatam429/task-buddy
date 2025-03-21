@@ -511,3 +511,31 @@ body {
 .inventory-item.active {
     display: block;
 }
+
+@media (max-width: 768px) {
+    .dashboard-container {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .task-list,
+    .pet-section {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .pet-environment {
+      height: 40vh; /* scale better on mobile */
+    }
+
+    #pet-sprite {
+        width: 100px;
+        height: 100px;
+        background-size: 500px 100px;
+    }
+
+    #decor-layer {
+        width: 40px;
+        height: 40px;
+    }
+}
