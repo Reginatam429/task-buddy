@@ -126,11 +126,24 @@ document.addEventListener("DOMContentLoaded", () => {
                 data.forEach(item => {
                     const itemDiv = document.createElement("div");
                     itemDiv.classList.add("inventory-item");
-                    itemDiv.dataset.category = item.type; // ✅ This ensures filtering works
+                    itemDiv.dataset.category = item.type;
+                
                     itemDiv.innerHTML = `
-                        <img src="${item.image}" alt="${item.name}">
+                        <img src="${item.image}" alt="${item.name}" />
                         <p>${item.name}</p>
                     `;
+                
+                    // 🟢 Click Event: update environment
+                    itemDiv.addEventListener("click", () => {
+                        if (item.type === "Pet") {
+                            document.getElementById("pet-sprite").style.backgroundImage = `url('${item.gameImage}')`;
+                        } else if (item.type === "Background") {
+                            document.getElementById("background-layer").style.backgroundImage = `url('${item.gameImage}')`;
+                        } else if (item.type === "Decoration") {
+                            document.getElementById("decor-layer").style.backgroundImage = `url('${item.gameImage}')`;
+                        }
+                    });
+                
                     inventoryContainer.appendChild(itemDiv);
                 });
 
