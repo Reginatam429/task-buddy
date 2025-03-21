@@ -404,7 +404,7 @@ body {
     position: absolute;
     bottom: 10px;
     left: 0%;
-    
+    transform-origin: center;
     animation: walk-cycle 0.8s steps(4) infinite, walk 4s linear infinite alternate;
 }
 
@@ -529,9 +529,10 @@ body {
     }
 
     #pet-sprite {
-        width: 100px;
-        height: 100px;
+        width: 130px;
+        height: 130px;
         background-size: 500px 100px;
+        animation: walk-cycle 0.8s steps(5) infinite, walk 5s linear infinite alternate;
     }
 
     #decor-layer {

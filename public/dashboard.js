@@ -4,32 +4,27 @@ document.addEventListener("DOMContentLoaded", () => {
     petSprite.style.backgroundImage = `url('${petImage}')`;
 
     // Set correct pet sprite
-    petSprite.style.backgroundImage = `url('${petImages[selectedPet] || petImages["default"]}')`;
+    // petSprite.style.backgroundImage = `url('${petImages[selectedPet] || petImages["default"]}')`;
 
     // Movement Logic
     let position = 0;
     let direction = 1; // 1 for right, -1 for left
     const speed = 1.5;
-    const maxRight = document.querySelector(".pet-area").offsetWidth - petSprite.offsetWidth;
+    const maxRight = petSprite.parentElement.clientWidth - petSprite.clientWidth;
 
     function movePet() {
         position += speed * direction;
         
-        // if (position >= maxRight || position <= 0) {
-        //     direction *= -1;
-        //     petSprite.style.transform = `scaleX(${direction})`; // Flip sprite
-        // }
+        const edgeBuffer = .5;
 
-        // Flip direction **only when fully reaching the edge**
-        if (position >= maxRight) {
+        if (position >= maxRight - edgeBuffer) {
             direction = -1;
-            petSprite.style.transform = "scaleX(-1)"; // Flip left
-        } 
-        else if (position <= 10) { // Small buffer for smooth flipping
+            petSprite.style.transform = "scaleX(-1)"; //Flip left
+        } else if (position <= edgeBuffer) {
             direction = 1;
             petSprite.style.transform = "scaleX(1)"; // Face right
         }
-
+        
         petSprite.style.left = position + "px";
         requestAnimationFrame(movePet);
     }
