@@ -70,19 +70,21 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function levelUp() {
-        level++; 
+        level++;
         userLevelElement.textContent = level; 
     
         console.log("🎊 Level Up! New Level:", level);
     
         // 🎉 Fire confetti 
-        console.log("🚀 Firing Confetti...");
         confetti({
             particleCount: 200,
             spread: 80,
             startVelocity: 30,
             origin: { x: 0.5, y: 0.5 }
         });
+    
+        // 🚀 Refresh inventory on level up
+        refreshInventory();
     }
 
     // Ensure XP bar updates when page loads
@@ -107,28 +109,58 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // INVENTORY LOGIC ****************
 document.addEventListener("DOMContentLoaded", () => {
+    const inventoryContainer = document.getElementById("inventory-items");
     const tabs = document.querySelectorAll(".inventory-tab");
-    const items = document.querySelectorAll(".inventory-item");
 
+    function refreshInventory() {
+        fetch("/account/inventory")
+            .then(response => response.json())
+            .then(data => {
+                inventoryContainer.innerHTML = ""; // Clear old items
+
+                if (data.length === 0) {
+                    inventoryContainer.innerHTML = "<p>Your inventory is empty.</p>";
+                    return;
+                }
+
+                data.forEach(item => {
+                    const itemDiv = document.createElement("div");
+                    itemDiv.classList.add("inventory-item");
+                    itemDiv.dataset.category = item.type; // ✅ This ensures filtering works
+                    itemDiv.innerHTML = `
+                        <img src="${item.image}" alt="${item.name}">
+                        <p>${item.name}</p>
+                    `;
+                    inventoryContainer.appendChild(itemDiv);
+                });
+
+                // Ensure only the active tab's items are visible
+                const activeTab = document.querySelector(".inventory-tab.active");
+                if (activeTab) filterInventory(activeTab.dataset.category);
+            })
+            .catch(error => console.error("❌ ERROR: Failed to fetch inventory:", error));
+    }
+
+    // Function to filter inventory based on active tab
+    function filterInventory(category) {
+        const items = document.querySelectorAll(".inventory-item");
+        items.forEach(item => {
+            item.style.display = item.dataset.category === category ? "block" : "none";
+        });
+    }
+
+    // Tab click event listener
     tabs.forEach(tab => {
         tab.addEventListener("click", () => {
-            // Remove 'active' class from all tabs
+            // Remove active class from all tabs
             tabs.forEach(t => t.classList.remove("active"));
-            tab.classList.add("active"); // Add to clicked tab
+            tab.classList.add("active");
 
-            const selectedCategory = tab.dataset.category;
-            
-            // Hide all items
-            items.forEach(item => {
-                if (item.dataset.category === selectedCategory) {
-                    item.classList.add("active");
-                } else {
-                    item.classList.remove("active");
-                }
-            });
+            // Filter inventory by selected tab
+            filterInventory(tab.dataset.category);
         });
     });
 
-    // Set default active category to "Pets"
-    document.querySelector(".inventory-tab.active").click();
+    // Refresh inventory on page load
+    refreshInventory();
 });

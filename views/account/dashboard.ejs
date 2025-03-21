@@ -11,8 +11,6 @@
     <h2>Hi, <%= user.username %>!</h2>
     <p>Your Current Level: <span id="user-level"><%= user.level %></span></p>
 
-    <!-- Debug: Show Raw XP Value -->
-    <p>DEBUG: XP = <%= user.xp %></p>
     <!-- XP Progress Bar -->
     <div class="xp-bar-container">
         <div class="xp-bar" id="xp-bar" style="width: <%= (user.xp % 100) %>%;"></div>
@@ -74,13 +72,10 @@
                 </div>
 
                 <!-- Scrollable Inventory List -->
-                <div class="inventory-items-container">
-                    <% user.inventory.forEach(item => { %>
-                        <div class="inventory-item" data-category="<%= item.type %>">
-                            <img src="<%= item.image %>" alt="<%= item.name %>">
-                            <p><%= item.name %></p>
-                        </div>
-                    <% }) %>
+                <div class="inventory-list">
+                    <div id="inventory-items">
+                        <p>Loading your items...</p>
+                    </div>
                 </div>
             </div>
         </div>

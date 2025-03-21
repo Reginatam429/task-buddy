@@ -7,16 +7,17 @@ const userSchema = new mongoose.Schema({
     level: { type: Number, default: 1 },
     xp: { type: Number, default: 0 },
     inventory: [{ type: mongoose.Schema.Types.ObjectId, ref: "Item" }],
+    selectedPet: { type: mongoose.Schema.Types.ObjectId, ref: "Item" },
     timezone: { type: String, default: "UTC" },
 
     moodHistory: [
         {
-        date: { type: Date, default: Date.now },
-        mood: {
-            type: String,
-            enum: ["Happy", "Sad", "Angry", "Fearful", "Anxious", "Calm", "Excited"],
-            required: true,
-        },
+            date: { type: Date, default: Date.now },
+            mood: {
+                type: String,
+                enum: ["Happy", "Sad", "Angry", "Fearful", "Anxious", "Calm", "Excited"],
+                required: true,
+            },
         },
     ],
 });

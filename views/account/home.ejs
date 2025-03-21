@@ -11,6 +11,26 @@
     <h1>Hello, <%= user.username %>!</h1>
     <p>Your Level: <%= user.level %></p>
     <br><br>
+    <% if (!user.selectedPet) { %>
+    <form action="/auth/select-pet" method="POST">
+        <h3>Choose Your Starter Pet:</h3>
+        <label>
+            <input type="radio" name="selectedPet" value="mushroom" required>
+            <img src="/assets/pets/mushroom-buddy.png" alt="Mushroom Buddy">
+        </label>
+        <label>
+            <input type="radio" name="selectedPet" value="bear">
+            <img src="/assets/pets/bear-buddy.png" alt="Bear Buddy">
+        </label>
+        <label>
+            <input type="radio" name="selectedPet" value="ducky">
+            <img src="/assets/pets/ducky-buddy.png" alt="Ducky Buddy">
+        </label>
+        <button type="submit">Confirm Pet</button>
+    </form>
+<% } else { %>
+    <p>🐾 Starter Pet Selected: <strong><%= user.selectedPet.name %></strong></p>
+<% } %>
     <a href="/account/dashboard" class="btn">Start</a>
     <br><br>
     <a href="/auth/sign-out" class="btn">Logout</a>

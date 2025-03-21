@@ -7,6 +7,7 @@ const methodOverride = require('method-override');
 const session = require('express-session');
 const Task = require("./models/task");
 const User = require("./models/user");
+const Item = require("./models/item");
 
 const port = process.env.PORT ? process.env.PORT : '3000';
 mongoose.connect(process.env.MONGODB_URI);
@@ -44,8 +45,18 @@ app.get('/', (req, res) => {
     res.render('index.ejs', { currentPage: 'landing', user: req.session.user || null });
 });
 
-app.get('/account/home', isSignedIn, (req, res) => {
-    res.render('account/home.ejs', { currentPage: 'dashboard', user: req.session.user });
+app.get('/account/home', isSignedIn, async (req, res) => {
+    try {
+        const user = await User.findById(req.session.user._id).populate("selectedPet");
+
+        res.render('account/home.ejs', {
+            currentPage: "dashboard",
+            user
+        });
+    } catch (error) {
+        console.error("❌ Error loading home:", error);
+        res.status(500).send("Something went wrong");
+    }
 });
 
 app.get("/account/dashboard", isSignedIn, async (req, res) => {
@@ -56,7 +67,7 @@ app.get("/account/dashboard", isSignedIn, async (req, res) => {
         }
 
         // Fetch the full user data from the database
-        const user = await User.findById(req.session.user._id);
+        const user = await User.findById(req.session.user._id).populate("inventory");
         if (!user) {
             console.log("User not found in database.");
             return res.redirect("/auth/sign-in");
@@ -74,6 +85,35 @@ app.get("/account/dashboard", isSignedIn, async (req, res) => {
         res.status(500).send("Failed to load dashboard");
     }
 });
+
+app.get("/account/inventory", isSignedIn, async (req, res) => {
+    try {
+        const user = await User.findById(req.session.user._id).populate("inventory");
+        if (!user) return res.status(400).json([]);
+
+        // Fetch all items where unlockLevel is <= user.level
+        const unlockedItems = await Item.find({ unlockLevel: { $lte: user.level } });
+
+        // Ensure user's inventory contains all unlocked items
+        const unlockedItemIds = unlockedItems.map(item => item._id);
+        const userItemIds = user.inventory.map(item => item._id.toString());
+
+        // Check if there are new items to add
+        const newItemsToAdd = unlockedItemIds.filter(itemId => !userItemIds.includes(itemId.toString()));
+
+        if (newItemsToAdd.length > 0) {
+            user.inventory.push(...newItemsToAdd);
+            await user.save();
+            console.log(`🎉 New items unlocked: ${newItemsToAdd.length}`);
+        }
+
+        res.json(unlockedItems); // ✅ Send all unlocked items
+    } catch (error) {
+        console.error("❌ ERROR fetching inventory:", error);
+        res.status(500).json([]);
+    }
+});
+
 
 
 app.listen(port, () => {

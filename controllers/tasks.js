@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Task = require("../models/task");
 const User = require("../models/user");
+const Item = require("../models/item");
 
 // CREATE NEW TASK
 router.post("/add", async (req, res) => {
@@ -91,6 +92,66 @@ router.post("/delete/:id", async (req, res) => {
     } catch (error) {
         console.error("Error deleting task:", error);
         res.status(500).send("Failed to delete task");
+    }
+});
+
+// REWARD USER UPON LEVEL UP
+const checkForLevelUp = async (userId) => {
+    const user = await User.findById(userId);
+    
+    // If XP reaches 100, level up
+    if (user.xp >= 100) {
+        user.level += 1;
+        user.xp = 0;
+
+        // Unlock new items based on level
+        const newItems = await Item.find({ unlockLevel: user.level });
+        if (newItems.length > 0) {
+            user.inventory.push(...newItems.map(item => item._id));
+            console.log(`🎉 User leveled up! New Items: ${newItems.map(item => item.name).join(", ")}`);
+        }
+
+        await user.save();
+    }
+};
+
+// LEVEL UP ROUTE
+router.post("/level-up", async (req, res) => {
+    try {
+        if (!req.session.user) return res.redirect("/auth/sign-in");
+
+        const user = await User.findById(req.session.user._id);
+        if (!user) return res.redirect("/auth/sign-in");
+
+        user.level += 1;
+        user.xp = 0; // Reset XP on level up
+        console.log(`🎉 Level Up! New Level: ${user.level}`);
+
+        // Find new items the user just unlocked
+        const newItems = await Item.find({ unlockLevel: user.level });
+
+        if (newItems.length > 0) {
+            console.log(`🆕 Unlocked ${newItems.length} new items!`);
+
+            // Add new items to inventory
+            newItems.forEach(item => {
+                if (!user.inventory.includes(item._id)) {
+                    user.inventory.push(item._id);
+                }
+            });
+
+        await user.save();
+        console.log("✅ Inventory updated with new items:", user.inventory);
+        }
+
+        req.session.user.level = user.level;
+        req.session.user.xp = user.xp;
+        req.session.user.inventory = user.inventory; // Update session
+
+        res.redirect("/account/dashboard"); // Redirect to refresh inventory
+    } catch (error) {
+        console.error("❌ Error during level-up:", error);
+        res.status(500).send("Failed to level up");
     }
 });
 
