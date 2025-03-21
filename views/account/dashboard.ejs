@@ -8,8 +8,8 @@
 </head>
 <body>
     <%- include("../partials/_navbar.ejs") %>
-    <h2>Hi, <%= user.username %>!</h2>
-    <p>Your Current Level: <span id="user-level"><%= user.level %></span></p>
+    <h1 class="greeting">Hi, <%= user.username %>!</h1>
+    <p class="user-level">Current Level: <span id="user-level"><%= user.level %></span></p>
 
     <!-- XP Progress Bar -->
     <div class="xp-container">
@@ -37,7 +37,9 @@
                         </form>
             
                         <!-- Task description -->
-                        <span class="task-text"><%= task.description %> <small>(<%= task.mood %>)</small></span>
+                        <span class="task-text">
+                            <%= task.description %>
+                        </span>
             
                         <!-- Edit form (Hidden by default) -->
                         <form action="/tasks/edit/<%= task._id %>" method="POST" class="edit-form">
@@ -46,9 +48,13 @@
                         </form>
             
                         <!-- Task action buttons -->
-                        <button class="edit-btn">✏️</button>
+                        <button class="edit-btn">
+                            <img src="/assets/edit.png" alt="Delete" class="icon-img">
+                        </button>
                         <form action="/tasks/delete/<%= task._id %>" method="POST" class="delete-form">
-                            <button type="submit" class="delete-btn">🗑️</button>
+                            <button type="submit" class="delete-btn">
+                                <img src="/assets/delete.png" alt="Delete" class="icon-img">
+                            </button>
                         </form>
                     </li>
                 <% }) %>

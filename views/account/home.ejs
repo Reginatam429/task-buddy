@@ -8,8 +8,8 @@
 </head>
 <body>
     <%- include("../partials/_navbar.ejs") %>
-    <h1>Hello, <%= user.username %>!</h1>
-    <p>Your Level: <%= user.level %></p>
+    <h1 class="greeting">Hello, <%= user.username %>!</h1>
+    <p class="user-level">Level: <%= user.level %></p>
     <br><br>
     <% if (!user.selectedPet) { %>
     <form action="/auth/select-pet" method="POST">
@@ -30,7 +30,7 @@
     </form>
 <% } else { %>
     <img src="<%= user.selectedPet.image %>" />
-    <p>🐾 Starter Pet Selected: <strong><%= user.selectedPet.name %></strong></p>
+    <p>🐾 Starter Pet: <strong><%= user.selectedPet.name %></strong></p>
 <% } %>
     <a href="/account/dashboard" class="btn">Start</a>
     <br><br>

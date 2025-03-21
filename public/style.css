@@ -45,6 +45,7 @@ body {
 
 /* Navbar Styles */
 .navbar {
+    height: 50px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -59,8 +60,9 @@ body {
 
 /* Navbar Logo */
 .logo img {
-    height: 40px; /* Adjust size as needed */
+    height: 80px;
     width: auto;
+    margin-top: 20px;
 }
 
 /* Logo Placeholder (Used on Landing Page) */
@@ -112,6 +114,27 @@ body {
     display: block;
 }
 
+.greeting {
+    font-size: 32px;
+    color: #444;
+    background: #fff8e1;
+    padding: 15px 30px;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(255, 193, 7, 0.2);
+    text-align: center;
+    font-weight: bold;
+    border: 2px dashed #ffb74d;
+    max-width: 500px;
+    margin: 20px auto;
+    font-family: 'Comic Sans MS', 'Poppins', cursive;
+}
+
+.user-level {
+    font-family: 'Comic Neue', 'Comic Sans MS', cursive;
+    font-size: 20px;
+    color: #ff6f91;
+    font-weight: bold;
+}
 /* Level Up Modal */
 .modal {
     position: fixed;
@@ -395,6 +418,7 @@ body {
     height: 18px;
     accent-color: #6fded4;
     cursor: pointer;
+    margin-right: 10px;
 }
 
 /* Task Text */
@@ -473,6 +497,13 @@ body {
 
 .task-item form {
     display: inline;
+}
+
+.icon-img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    pointer-events: none;
 }
 
 /* Container for Pet & Inventory */
