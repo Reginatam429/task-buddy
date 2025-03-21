@@ -24,3 +24,17 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+    const howToBtn = document.getElementById("howToPlayBtn");
+    const instructions = document.getElementById("howToPlayInstructions");
+
+    if (howToBtn && instructions) {
+        howToBtn.addEventListener("click", () => {
+            instructions.classList.toggle("hidden");
+            howToBtn.textContent = instructions.classList.contains("hidden")
+            ? "How to Play"
+            : "Close Instructions";
+        });
+    }
+});

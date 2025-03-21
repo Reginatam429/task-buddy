@@ -34,7 +34,20 @@
 <% } %>
     <a href="/account/dashboard" class="btn">Start</a>
     <br><br>
+    <button id="howToPlayBtn" class="btn">How to Play</button>
+    <div id="howToPlayInstructions" class="how-to hidden">
+    <h3>🐾 How to Play Task Buddy</h3>
+    <ul>
+        <li>✅ Complete tasks to gain XP.</li>
+        <li>⭐ Level up to unlock new pets, backgrounds, and decorations.</li>
+        <li>🎨 Use your inventory to customize your pet's environment.</li>
+        <li>🧸 Only one pet, background, and decoration can be active at a time.</li>
+        <li>📦 New items will appear in your inventory as you level up!</li>
+    </ul>
+    </div>
+    <br><br>
     <a href="/auth/sign-out" class="btn">Logout</a>
+    <br><br>
     <script src="/script.js"></script>
     <%- include("../partials/_footer") %>
 </body>

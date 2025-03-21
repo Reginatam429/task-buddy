@@ -123,6 +123,30 @@ body {
     bottom: 0;
     margin-top: auto;
 }
+/* Homepage How To Play */
+.how-to {
+    background: #fff8e1;
+    border: 2px dashed #ffc107;
+    padding: 20px;
+    margin-top: 15px;
+    border-radius: 10px;
+    max-width: 600px;
+    font-size: 16px;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.how-to ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.how-to ul li {
+    padding: 6px 0;
+}
+
+.hidden {
+    display: none;
+}
 
 /* Logo */
 .logo {
