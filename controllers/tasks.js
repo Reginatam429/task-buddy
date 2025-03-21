@@ -71,7 +71,7 @@ router.post("/toggle-complete/:id", async (req, res) => {
 
         // Level Up Logic
         if (user.xp >= 100) {
-            user.level += 1;
+            // user.level += 1;
             user.xp = 0; // Reset XP after leveling up
         }
 
@@ -123,7 +123,7 @@ router.post("/level-up", async (req, res) => {
         const user = await User.findById(req.session.user._id);
         if (!user) return res.redirect("/auth/sign-in");
 
-        user.level += 1;
+        //user.level += 1;
         user.xp = 0; // Reset XP on level up
         console.log(`🎉 Level Up! New Level: ${user.level}`);
 
