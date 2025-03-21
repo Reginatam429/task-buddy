@@ -112,6 +112,45 @@ body {
     display: block;
 }
 
+/* Level Up Modal */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.modal-content {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    max-width: 500px;
+    text-align: center;
+    box-shadow: 0px 5px 15px rgba(0,0,0,0.3);
+}
+
+.unlocked-items-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.unlocked-items-grid img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    border-radius: 8px;
+    border: 2px solid #ddd;
+}
+
 .footer {
     width: 100%;
     text-align: center;
@@ -220,21 +259,35 @@ body {
 }
 
 /* XP Bar Container */
-.xp-bar-container {
+.xp-container {
+    margin: 20px 0;
+    text-align: center;
     width: 100%;
-    max-width: 300px;
-    height: 20px;
-    background: #ddd;
-    border-radius: 10px;
-    overflow: hidden;
-    margin-top: 10px;
+    max-width: 400px;
 }
 
-/* XP Fill */
-.xp-bar {
+.xp-bar-wrapper {
+    background: #ffeef4;
+    border: 3px solid #ffb6c1;
+    border-radius: 20px;
+    height: 30px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0px 2px 8px rgba(255, 182, 193, 0.4);
+}
+
+.xp-bar-fill {
     height: 100%;
-    background: #6fded4;
-    transition: width 0.5s ease-in-out;
+    background: linear-gradient(90deg, #6fded4, #57c7bc);
+    transition: width 0.4s ease-in-out;
+    border-radius: 20px 0 0 20px;
+}
+
+.xp-count {
+    font-weight: bold;
+    color: #555;
+    margin-top: 5px;
+    font-size: 16px;
 }
 
 /* Task List Section - Scrollable */

@@ -114,7 +114,16 @@ app.get("/account/inventory", isSignedIn, async (req, res) => {
     }
 });
 
-
+app.get("/account/unlocked-items", async (req, res) => {
+    const { level } = req.query;
+    try {
+        const items = await Item.find({ unlockLevel: parseInt(level) });
+        res.json(items);
+    } catch (err) {
+        console.error("❌ Failed to fetch unlocked items:", err);
+        res.status(500).json([]);
+    }
+});
 
 app.listen(port, () => {
     console.log(`The express app is ready on port ${port}!`);

@@ -12,10 +12,12 @@
     <p>Your Current Level: <span id="user-level"><%= user.level %></span></p>
 
     <!-- XP Progress Bar -->
-    <div class="xp-bar-container">
-        <div class="xp-bar" id="xp-bar" style="width: <%= (user.xp % 100) %>%;"></div>
+    <div class="xp-container">
+        <p class="xp-count">EXP Progress: <%= user.xp % 100 %>/100</p>
+        <div class="xp-bar-wrapper">
+        <div class="xp-bar-fill" id="xp-bar" style="width: <%= (user.xp % 100) %>%;"></div>
+        </div>
     </div>
-    <p><%= user.xp % 100 %>/100 XP</p>
     <!-- Main Container for Two Sections -->
     <div class="dashboard-container">
         <!-- Left: Task List -->
@@ -80,6 +82,14 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+    <div id="levelUpModal" class="modal hidden">
+        <div class="modal-content">
+            <h2>🎉 Level Up!</h2>
+            <p>You’ve reached level <span id="modal-level"></span>! Here’s what you unlocked:</p>
+            <div id="unlocked-items" class="unlocked-items-grid"></div>
+            <button id="closeModalBtn" class="btn">Awesome!</button>
         </div>
     </div>
         <!-- Inject XP & Level Data for JavaScript -->

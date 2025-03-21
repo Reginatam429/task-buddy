@@ -66,21 +66,56 @@ document.addEventListener("DOMContentLoaded", () => {
     
         console.log("🎊 Level Up! New Level:", level);
     
-        // 🎉 Fire confetti 
-        confetti({
-            particleCount: 200,
-            spread: 80,
-            startVelocity: 30,
-            origin: { x: 0.5, y: 0.5 }
-        });
+        // Fire confetti 
+        confetti();
     
-        // 🚀 Refresh inventory on level up
+        // Refresh inventory on level up
         refreshInventory();
+
+        // Show level-up modal
+        showLevelUpModal(level);
     }
 
     // Ensure XP bar updates when page loads
     updateXPBar(xp);
 });
+
+function showLevelUpModal(level) {
+    const modal = document.getElementById("levelUpModal");
+    const levelSpan = document.getElementById("modal-level");
+    const unlockedContainer = document.getElementById("unlocked-items");
+
+    levelSpan.textContent = level;
+    unlockedContainer.innerHTML = "Loading...";
+
+    fetch(`/account/unlocked-items?level=${level}`)
+    .then(res => res.json())
+    .then(items => {
+        unlockedContainer.innerHTML = "";
+        if (items.length === 0) {
+            unlockedContainer.innerHTML = "<p>No items unlocked at this level.</p>";
+            return;
+        }
+
+        items.forEach(item => {
+            const img = document.createElement("img");
+            img.src = item.image;
+            img.alt = item.name;
+            unlockedContainer.appendChild(img);
+        });
+
+        modal.classList.remove("hidden");
+    })
+    .catch(err => {
+        console.error("Error fetching unlocked items:", err);
+        unlockedContainer.innerHTML = "<p>Error loading items.</p>";
+    });
+
+    // Close modal button
+    document.getElementById("closeModalBtn").addEventListener("click", () => {
+        modal.classList.add("hidden");
+    });
+}
 
 // Handling edit button clicks
 document.addEventListener("DOMContentLoaded", () => {
