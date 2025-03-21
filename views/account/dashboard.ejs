@@ -20,8 +20,8 @@
     <div class="dashboard-container">
         <!-- Left: Task List -->
         <div class="task-list">
-            <h2>Your Tasks</h2>
-            <form action="/tasks/add" method="POST">
+            <h2 class="task-heading">Your Tasks</h2>
+            <form action="/tasks/add" method="POST" class="task-form">
                 <input type="text" name="description" placeholder="Add a task" required>
                 <button type="submit">Add Task</button>
             </form>
@@ -90,5 +90,6 @@
     <script src="/script.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.3.2"></script>
     <script src="/dashboard.js"></script>
+    <%- include("../partials/_footer") %>
 </body>
 </html>

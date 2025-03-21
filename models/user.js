@@ -2,13 +2,35 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 
 const userSchema = new mongoose.Schema({
-    username: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
-    level: { type: Number, default: 1 },
-    xp: { type: Number, default: 0 },
-    inventory: [{ type: mongoose.Schema.Types.ObjectId, ref: "Item" }],
-    selectedPet: { type: mongoose.Schema.Types.ObjectId, ref: "Item" },
-    timezone: { type: String, default: "UTC" },
+    username: { 
+        type: String, 
+        required: true, 
+        unique: true 
+    },
+    password: { 
+        type: String, 
+        required: true 
+    },
+    level: { 
+        type: Number, 
+        default: 1 
+    },
+    xp: { 
+        type: Number, 
+        default: 0 
+    },
+    inventory: [{ 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: "Item" 
+    }],
+    selectedPet: { 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: "Item" 
+    },
+    timezone: { 
+        type: String, 
+        default: "UTC" 
+    },
 
     moodHistory: [
         {
