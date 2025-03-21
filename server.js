@@ -67,7 +67,7 @@ app.get("/account/dashboard", isSignedIn, async (req, res) => {
         }
 
         // Fetch the full user data from the database
-        const user = await User.findById(req.session.user._id).populate("inventory");
+        const user = await User.findById(req.session.user._id).populate("inventory").populate("selectedPet");
         if (!user) {
             console.log("User not found in database.");
             return res.redirect("/auth/sign-in");

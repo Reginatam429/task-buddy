@@ -60,7 +60,7 @@
                 <div class="pet-area">
                     <div id="background-layer"></div> <!-- New -->
                     <div id="decor-layer"></div>      <!-- New -->
-                    <div id="pet-sprite" data-pet="<%= user.pet || 'default' %>"></div>
+                    <div id="pet-sprite" data-pet="<%= user.selectedPet ? user.selectedPet.name : 'default' %>" data-pet-image="<%= user.selectedPet ? user.selectedPet.gameImage : '/assets/pet-default.png' %>"></div>
                 </div>
             </div>
 

@@ -1,11 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     const petSprite = document.getElementById("pet-sprite");
-    const selectedPet = petSprite.dataset.pet; // Get the pet from data attribute
-    const petImages = {
-        "default": "/assets/pet-mushroom-walk.png",
-        "cat": "/assets/pet-cat.png",
-        "dog": "/assets/pet-dog.png"
-    };
+    const petImage = petSprite.dataset.petImage || "/assets/pet-default.png";
+    petSprite.style.backgroundImage = `url('${petImage}')`;
 
     // Set correct pet sprite
     petSprite.style.backgroundImage = `url('${petImages[selectedPet] || petImages["default"]}')`;
