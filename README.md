@@ -23,7 +23,7 @@ Credit to [Caz-creates-games](caz-creates-games.itch.io) for the character sprit
 
 ## 🚀 Installation
 To install this app, please install the project dependencies and run it locally. Task Buddy is currently hosted on: 
-PLACEHOLDER.
+>  [Heroku](https://task-buddy-app-9018ca12f5dd.herokuapp.com/)
 
 1. clone the repo
 2. Run a terminal and cd into folder Client
