@@ -29,6 +29,7 @@
         <button type="submit">Confirm Pet</button>
     </form>
 <% } else { %>
+    <img src="<%= user.selectedPet.image %>" />
     <p>🐾 Starter Pet Selected: <strong><%= user.selectedPet.name %></strong></p>
 <% } %>
     <a href="/account/dashboard" class="btn">Start</a>

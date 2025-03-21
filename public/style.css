@@ -460,11 +460,24 @@ body {
     display: block;
 }
 
+.inventory-list {
+    max-height: 300px; /* adjust as needed */
+    overflow-y: auto; /* vertical scroll when content exceeds height */
+    padding-right: 10px; /* for spacing */
+}
+
+#inventory-items {
+    display: flex;
+    flex-wrap: wrap; /* items wrap to next row */
+    gap: 10px; /* space between items */
+}
+
 /* Inventory Items */
 .inventory-item {
     display: none; /* Hide all by default */
     width: 100px; /* Increased size */
     text-align: center;
+    flex-shrink: 0;
 }
 
 .inventory-item img {
