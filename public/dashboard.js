@@ -58,9 +58,11 @@ document.addEventListener("DOMContentLoaded", () => {
     
         console.log("🔄 XP Updated:", newXP, "| XP Bar:", xpPercentage);
     
-        if (xpPercentage == 0) {  
-            console.log("🎉 Level Up Detected! XP:", newXP);
-            levelUp();
+        const urlParams = new URLSearchParams(window.location.search);
+        
+        if (urlParams.get("leveled") === "true") {
+            showLevelUpModal(level);
+            console.log("🎉 Level-up modal triggered from URL!");
         }
     }
 

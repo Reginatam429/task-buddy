@@ -49,35 +49,46 @@ router.post("/edit/:id", async (req, res) => {
 // MARK TASK COMPLETE
 router.post("/toggle-complete/:id", async (req, res) => {
     try {
-        // Ensure user is logged in
-        if (!req.session.user) {
-            return res.status(401).send("Unauthorized: No user in session");
-        }
+        if (!req.session.user) return res.status(401).send("Unauthorized");
 
         const task = await Task.findById(req.params.id);
         const user = await User.findById(req.session.user._id);
 
-        if (!task || !user) return res.status(404).send("Task or user not found");
+        if (!task || !user) return res.status(404).send("Not found");
 
         task.completed = !task.completed;
         await task.save();
 
-        // **XP Adjustment**
         if (task.completed) {
-            user.xp += task.xpReward; // ✅ Add XP when completed
+            user.xp += task.xpReward;
         } else {
-            user.xp = Math.max(0, user.xp - task.xpReward); // ✅ Ensure XP never goes below 0
+            user.xp = Math.max(0, user.xp - task.xpReward);
         }
 
-        // Level Up Logic
+        // ✅ Level up logic
+        let leveledUp = false;
         if (user.xp >= 100) {
-            // user.level += 1;
-            user.xp = 0; // Reset XP after leveling up
+            user.level += 1;
+            user.xp = 0;
+            leveledUp = true;
+
+            const newItems = await Item.find({ unlockLevel: user.level });
+            newItems.forEach(item => {
+                if (!user.inventory.includes(item._id)) {
+                    user.inventory.push(item._id);
+                }
+            });
         }
 
         await user.save();
 
-        res.redirect("/account/dashboard");
+        // ✅ Save session
+        req.session.user.level = user.level;
+        req.session.user.xp = user.xp;
+        req.session.user.inventory = user.inventory;
+
+        // ✅ Redirect with optional flag
+        res.redirect(`/account/dashboard${leveledUp ? "?leveled=true" : ""}`);
     } catch (error) {
         console.error("Error toggling task:", error);
         res.status(500).send("Failed to update task");
