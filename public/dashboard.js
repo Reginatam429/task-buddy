@@ -49,12 +49,16 @@ document.addEventListener("DOMContentLoaded", () => {
     let level = userLevel;
 
     function updateXPBar(newXP) {
-        let xpPercentage = newXP % 100; 
+        console.log(`Inside updateXPBar`)
+        console.log("newXP: ", newXP);
+        let xpPercentage = newXP % 110; 
+        console.log("newXP", newXP);
+        console.log("XP %:", xpPercentage);
         xpBar.style.width = `${xpPercentage}%`;
     
         console.log("🔄 XP Updated:", newXP, "| XP Bar:", xpPercentage);
     
-        if (newXP >= 100) {  
+        if (xpPercentage == 0) {  
             console.log("🎉 Level Up Detected! XP:", newXP);
             levelUp();
         }
@@ -70,7 +74,9 @@ document.addEventListener("DOMContentLoaded", () => {
         confetti();
     
         // Refresh inventory on level up
-        refreshInventory();
+        //refreshInventory();
+
+        console.log(`Level() b4 modal()`);
 
         // Show level-up modal
         showLevelUpModal(level);
@@ -81,6 +87,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function showLevelUpModal(level) {
+    console.log(`Inside showLevelUpModel!!!!`);
     const modal = document.getElementById("levelUpModal");
     const levelSpan = document.getElementById("modal-level");
     const unlockedContainer = document.getElementById("unlocked-items");
