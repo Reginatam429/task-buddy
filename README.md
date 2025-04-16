@@ -7,7 +7,7 @@ Task Buddy is a MEN stack CRUD app designed to make staying on top of your to-do
 
 >  [Task Buddy App - Try it out!](https://task-buddy-app-9018ca12f5dd.herokuapp.com/)
 
-Demo:
+Youtube Demo:
 [![Demo](public/readme/appscreenshot.png)](https://youtu.be/jGgumNj4Qxo)
 
 
